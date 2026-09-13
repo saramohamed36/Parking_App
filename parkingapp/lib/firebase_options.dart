@@ -21,10 +21,7 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for ios - '
@@ -50,22 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC7oq6cVC1upxxiCown6jNaJmRD56Y0zDo',
-    appId: '1:624561100662:web:d6077b2b0e7d5171e5cc57',
-    messagingSenderId: '624561100662',
-    projectId: 'parkingapp-c53d1',
-    authDomain: 'parkingapp-c53d1.firebaseapp.com',
-    storageBucket: 'parkingapp-c53d1.firebasestorage.app',
-    measurementId: 'G-Z0DSFGFD4Z',
+    apiKey: 'AIzaSyCBot9VRlJh5M5MrYCvLbJy5exe1skxNT8',
+    appId: '1:251585031194:web:50282aaa6fa44b37af35a3',
+    messagingSenderId: '251585031194',
+    projectId: 'parking-app-2e0bb',
+    authDomain: 'parking-app-2e0bb.firebaseapp.com',
+    storageBucket: 'parking-app-2e0bb.firebasestorage.app',
+    measurementId: 'G-8CFV060FFY',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyC7oq6cVC1upxxiCown6jNaJmRD56Y0zDo',
-    appId: '1:624561100662:web:0e1fa1998a67f962e5cc57',
-    messagingSenderId: '624561100662',
-    projectId: 'parkingapp-c53d1',
-    authDomain: 'parkingapp-c53d1.firebaseapp.com',
-    storageBucket: 'parkingapp-c53d1.firebasestorage.app',
-    measurementId: 'G-W50TZCHECD',
+    apiKey: 'AIzaSyCBot9VRlJh5M5MrYCvLbJy5exe1skxNT8',
+    appId: '1:251585031194:web:5ad92bc448abccc2af35a3',
+    messagingSenderId: '251585031194',
+    projectId: 'parking-app-2e0bb',
+    authDomain: 'parking-app-2e0bb.firebaseapp.com',
+    storageBucket: 'parking-app-2e0bb.firebasestorage.app',
+    measurementId: 'G-QXWNMYVE1H',
+  );
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyAPWkiddpk7i5EOE7U9ZTED-hcwaqsGAzE',
+    appId: '1:251585031194:android:18cf88ca9a130224af35a3',
+    messagingSenderId: '251585031194',
+    projectId: 'parking-app-2e0bb',
+    storageBucket: 'parking-app-2e0bb.firebasestorage.app',
   );
 }
