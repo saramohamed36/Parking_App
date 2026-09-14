@@ -29,7 +29,7 @@ class Loginscreen extends StatelessWidget {
            context.go(Garageoverviewscreen.routeName);
           }
           if(state is LoginErrorState){
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message),));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email or Password Not Found"),));
           }
         },
         child: Scaffold(
