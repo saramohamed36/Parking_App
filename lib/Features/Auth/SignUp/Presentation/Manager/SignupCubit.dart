@@ -9,7 +9,7 @@ import 'package:parkingapp/Features/Auth/SignUp/data/model/SignUp_hive.dart';
 class Signupcubit extends Cubit<Signupstate> {
   Signupcubit() : super(SignUpInitialState());
 
-  SignupHive signupHive=SignupHive();
+  final SignupHive signupHive=SignupHive();
   Future<void> SignUpUser(UserModel user,String password) async {
     
     if (user.name.isEmpty ||
@@ -22,9 +22,12 @@ class Signupcubit extends Cubit<Signupstate> {
 emit(SignUpLoadingState());
 try {
    FirebaseAuth firebaseAuth=FirebaseAuth.instance;
+ 
    UserCredential credential =await firebaseAuth.createUserWithEmailAndPassword(email: user.email, password: password);
    final uid =credential.user!.uid;
   user.uid=uid;
+ await credential.user!.updateDisplayName(user.name);
+ await credential.user!.reload();
   await FirebaseFirestore.instance.collection("user").doc(uid).set(
     user.toJson()
   );

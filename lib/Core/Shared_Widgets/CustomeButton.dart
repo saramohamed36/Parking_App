@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:parkingapp/Core/Theme/ColorManager.dart';
 
 
@@ -17,7 +18,7 @@ class Customebutton extends StatelessWidget{
         backgroundColor:ColorManager.buttonColor,
         shape:RoundedRectangleBorder(
          
-            borderRadius: BorderRadius.circular(12)
+            borderRadius: BorderRadius.circular(12.r)
             
         )
       ),

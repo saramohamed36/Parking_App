@@ -12,15 +12,15 @@ class Logincubit extends Cubit<Loginstate> {
 
   LogiinHive loginHive = LogiinHive();
 
-  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
-  bool _googleSignInInitialized = false;
+  final GoogleSignIn googleSignIn = GoogleSignIn.instance;
+  bool googleSignInInitialized = false;
 
   Future<void> _ensureGoogleSignInInitialized() async {
-    if (!_googleSignInInitialized) {
-      await _googleSignIn.initialize(
+    if (!googleSignInInitialized) {
+      await googleSignIn.initialize(
         serverClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com',
       );
-      _googleSignInInitialized = true;
+      googleSignInInitialized = true;
     }
   }
 
@@ -66,7 +66,7 @@ class Logincubit extends Cubit<Loginstate> {
       await _ensureGoogleSignInInitialized();
 
       final GoogleSignInAccount googleUser =
-          await _googleSignIn.authenticate();
+          await googleSignIn.authenticate();
 
       final GoogleSignInAuthentication googleAuth =
           googleUser.authentication;

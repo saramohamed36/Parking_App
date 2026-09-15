@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parkingapp/Core/Routing/Routes.dart';
@@ -23,6 +24,8 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
+   
     return SafeArea(
       child: BlocListener<Signupcubit, Signupstate>(
         listener: (context, state) {
@@ -46,11 +49,11 @@ class SignupScreen extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(
-                left: 32,
-                right: 32,
-                bottom: 32,
-                top: 16,
+              padding: EdgeInsets.only(
+           left: 20.w,
+          right: 20.w,
+          bottom: 32.h,
+          top: 16.h,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,25 +63,25 @@ class SignupScreen extends StatelessWidget {
                     subtitle: "Join Smart Parking for a smoother \nparking experience",
                   ),
 
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   Textinput(
                     hinttext: "FullName",
                     controller: name,
                     prefixicon: SvgPicture.asset(Appassets.profileIcon),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   Textinput(
                     hinttext: "Email Address",
                     controller: email,
                     prefixicon: SvgPicture.asset(Appassets.emailIcon),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   Textinput(
                     hinttext: "Phone Number",
                     controller: phone,
                     prefixicon: SvgPicture.asset(Appassets.phoneIcon),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   Textinput(
                     isvisible: true,
                     hinttext: "Password",
@@ -86,14 +89,14 @@ class SignupScreen extends StatelessWidget {
                     prefixicon: SvgPicture.asset(Appassets.lockIcon),
                     postfixicon: SvgPicture.asset(Appassets.visibleIcon),
                   ),
-                  SizedBox(height: 32),
+                  SizedBox(height: 32.h),
                   Customebutton("Sign Up", () {
                     UserModel user=
                     UserModel(name: name.text, email: email.text, phone: phone.text, uid: "");
                     context.read<Signupcubit>().SignUpUser(user, password.text);
-                   context.go(Garageoverviewscreen.routeName);
+                 
                   }),
-                  SizedBox(height: 30),
+                  SizedBox(height: 30.h),
                   Align(
                     alignment: Alignment.center,
                     child: Text.rich(
@@ -101,14 +104,14 @@ class SignupScreen extends StatelessWidget {
                         text: "Already have an account? ",
                         style: TextStyle(
                           color: ColorManager.subtitleColor,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                         ),
                         children: [
                           TextSpan(
                             text: "Login",
                             style: TextStyle(
                               color: ColorManager.buttonColor,
-                              fontSize: 16,
+                              fontSize: 16.sp,
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {

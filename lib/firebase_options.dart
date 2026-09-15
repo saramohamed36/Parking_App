@@ -65,12 +65,11 @@ class DefaultFirebaseOptions {
     storageBucket: 'parkingapp-c53d1.firebasestorage.app',
     measurementId: 'G-W50TZCHECD',
   );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCLlwPDVujSOH9-squpH4YVGhYjLK_YAZ8',
-    appId: '1:557193455838:android:db1400dbd445bea56a3a4f',
-    messagingSenderId: '557193455838',
-    projectId: 'parkingapp-cf7f5',
-    storageBucket: 'parkingapp-cf7f5.firebasestorage.app',
+    apiKey: 'AIzaSyAYsuWmsXXYhrQ14L8ljXXKaRXCa-DKpxA',
+    appId: '1:624561100662:android:335abcfc18d5701fe5cc57',
+    messagingSenderId: '624561100662',
+    projectId: 'parkingapp-c53d1',
+    storageBucket: 'parkingapp-c53d1.firebasestorage.app',
   );
 }

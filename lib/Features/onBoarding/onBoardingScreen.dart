@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:parkingapp/Core/Routing/Routes.dart';
@@ -19,7 +20,7 @@ class OnboardingScreen extends StatelessWidget {
           Image.asset(Appassets.onboardingImage, fit: BoxFit.cover, width: double.infinity,
         height: double.infinity,),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 30),
+            padding: EdgeInsets.symmetric(horizontal:30.w,vertical: 30.h),
             child: Column(
               children: [
                   Image.asset(Appassets.logoImage),
@@ -27,15 +28,15 @@ class OnboardingScreen extends StatelessWidget {
                      Text( "Smart parking for a smoother\n      and easier experience.",style: TextStyle(
               color: ColorManager.primaryBG
             ),),
-            SizedBox(height: 35),
+            SizedBox(height: 35.h),
             
             SizedBox(
               width: double.infinity,
-              height: 52,
+              height: 52.h,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorManager.titleColor,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.r)),
                 ),
                 
                 onPressed: (){
@@ -43,7 +44,7 @@ class OnboardingScreen extends StatelessWidget {
                   context.go(Routes.signupScreen);
                 }, child: Text( "Get Started",style: TextStyle(
                 color: ColorManager.primaryBG,
-                fontSize: 16,
+                fontSize: 16.sp,
                               fontWeight: FontWeight.w600,
               ),)),
             )

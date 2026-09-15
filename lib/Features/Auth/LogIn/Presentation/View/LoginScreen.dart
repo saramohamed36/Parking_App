@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parkingapp/Core/Routing/Routes.dart';
@@ -43,7 +44,7 @@ class Loginscreen extends StatelessWidget {
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.all(32),
+            padding: EdgeInsets.all(32.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -52,20 +53,20 @@ class Loginscreen extends StatelessWidget {
                   subtitle: "Login to your account",
                 ),
 
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Textinput(
                   controller: emailOrPhone,
                   hinttext: "Email or Phone Number",
                   prefixicon: SvgPicture.asset(Appassets.emailIcon),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Textinput(
                   controller: password,
                   hinttext: "Password",
                   prefixicon: SvgPicture.asset(Appassets.lockIcon),
                   postfixicon: SvgPicture.asset(Appassets.visibleIcon),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Align(
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
@@ -74,18 +75,18 @@ class Loginscreen extends StatelessWidget {
                       "Forgot Password?",
                       style: TextStyle(
                         color: ColorManager.buttonColor,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Customebutton("Login", () {
                   context.read<Logincubit>().UserLogIn(emailOrPhone.text, password.text);
                
                 }),
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Row(
                   children: [
                     Expanded(
@@ -95,12 +96,12 @@ class Loginscreen extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Text(
                         "Or",
                         style: TextStyle(
                           color: ColorManager.subtitleColor,
-                          fontSize: 14,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ),
@@ -112,7 +113,7 @@ class Loginscreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 SocialButton(
                   image: Appassets.googleIcon,
                   text: "Continue with Google",
@@ -120,7 +121,7 @@ class Loginscreen extends StatelessWidget {
                      context.read<Logincubit>().GoogleLogin();
                   },
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 SocialButton(
                   image: Appassets.FacebookIcon,
                   text: "Continue with Facebook",
