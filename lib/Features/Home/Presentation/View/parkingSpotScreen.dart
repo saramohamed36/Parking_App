@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:parkingapp/Features/Home/Widgets/legend_item.dart';
 import 'package:parkingapp/Features/Home/Widgets/spot_details.dart';
+import '../Manager/spot_cubit.dart';
 
-class ParkingSpotScreen extends StatefulWidget {
+class ParkingSpotScreen extends StatelessWidget {
   final String garageName;
   final String garageDistance;
   final String date;
@@ -16,195 +19,189 @@ class ParkingSpotScreen extends StatefulWidget {
     required this.time,
   });
 
-  @override
-  State<ParkingSpotScreen> createState() => _ParkingSpotScreenState();
-}
-
-class _ParkingSpotScreenState extends State<ParkingSpotScreen> {
-  final List<Map<String, dynamic>> spots = List.generate(20, (index) {
-    int spotNumber = 101 + index;
-    return {
-      "id": spotNumber,
-      "status":
-          (spotNumber == 103 ||
-              spotNumber == 108 ||
-              spotNumber == 113 ||
-              spotNumber == 114)
-          ? "Occupied"
-          : (spotNumber == 117 || spotNumber == 120)
-          ? "Unavailable"
-          : "Available",
-      "level": "Level 1",
-      "row": "Row B",
-    };
-  });
-
-  int? selectedSpot;
+  static Widget withCubit({
+    required String garageName,
+    required String garageDistance,
+    required String date,
+    required String time,
+  }) {
+    return BlocProvider(
+      create: (_) => ParkingSpotCubit(),
+      child: ParkingSpotScreen(
+        garageName: garageName,
+        garageDistance: garageDistance,
+        date: date,
+        time: time,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black, size: 20.sp),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           "Parking Spots",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 20,
+            fontSize: 20.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: false,
       ),
-      body: Column(
-        children: [
-          // Garage info card (Dynamic)
-          Container(
-            margin: EdgeInsets.all(screenWidth * 0.04),
-            padding: EdgeInsets.all(screenWidth * 0.04),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 6,
-                  offset: Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.directions_car,
-                  size: screenWidth * 0.1,
-                  color: Colors.green,
-                ),
-                SizedBox(width: screenWidth * 0.03),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.garageName,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const Text(
-                      "Level 1",
-                      style: TextStyle(fontSize: 14, color: Colors.black54),
+      body: BlocBuilder<ParkingSpotCubit, ParkingSpotState>(
+        builder: (context, state) {
+          final cubit = context.read<ParkingSpotCubit>();
+
+          return Column(
+            children: [
+              // Garage info card
+              Container(
+                margin: EdgeInsets.all(16.w),
+                padding: EdgeInsets.all(16.w),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12.r),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 6,
+                      offset: Offset(0, 3),
                     ),
                   ],
                 ),
-                const Spacer(),
-                Text(
-                  widget.garageDistance,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Legend row
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: screenWidth * 0.04,
-              vertical: screenWidth * 0.02,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                LegendItem(color: Colors.green, label: "Available"),
-                LegendItem(color: Colors.red, label: "Occupied"),
-                LegendItem(color: Colors.blueGrey, label: "Unavailable"),
-              ],
-            ),
-          ),
-
-          // Parking spots grid
-          Expanded(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                int crossAxisCount = constraints.maxWidth < 400
-                    ? 4
-                    : constraints.maxWidth < 600
-                    ? 5
-                    : 6;
-
-                return GridView.builder(
-                  padding: EdgeInsets.all(screenWidth * 0.03),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: crossAxisCount,
-                    mainAxisSpacing: screenWidth * 0.02,
-                    crossAxisSpacing: screenWidth * 0.02,
-                    childAspectRatio: 1,
-                  ),
-                  itemCount: spots.length,
-                  itemBuilder: (context, index) {
-                    final spot = spots[index];
-                    Color bgColor;
-                    switch (spot["status"]) {
-                      case "Occupied":
-                        bgColor = Colors.red;
-                        break;
-                      case "Unavailable":
-                        bgColor = Colors.blueGrey;
-                        break;
-                      default:
-                        bgColor = Colors.green;
-                    }
-
-                    if (selectedSpot == spot["id"] &&
-                        spot["status"] == "Available") {
-                      bgColor = Colors.blue;
-                    }
-
-                    return GestureDetector(
-                      onTap: () => setState(() => selectedSpot = spot["id"]),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: bgColor,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "${spot["id"]}",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: screenWidth * 0.03,
-                            ),
+                child: Row(
+                  children: [
+                    Icon(Icons.directions_car,
+                        size: 40.sp, color: Colors.green),
+                    SizedBox(width: 12.w),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          garageName,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
+                        Text(
+                          "Level 1",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    Text(
+                      garageDistance,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
                       ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Legend row
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: const [
+                    LegendItem(color: Colors.green, label: "Available"),
+                    LegendItem(color: Colors.red, label: "Occupied"),
+                    LegendItem(color: Colors.blueGrey, label: "Unavailable"),
+                  ],
+                ),
+              ),
+
+              // Parking spots grid
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    int crossAxisCount = constraints.maxWidth < 400
+                        ? 4
+                        : constraints.maxWidth < 600
+                            ? 5
+                            : 6;
+
+                    return GridView.builder(
+                      padding: EdgeInsets.all(12.w),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: crossAxisCount,
+                        mainAxisSpacing: 8.h,
+                        crossAxisSpacing: 8.w,
+                        childAspectRatio: 1,
+                      ),
+                      itemCount: state.spots.length,
+                      itemBuilder: (context, index) {
+                        final spot = state.spots[index];
+                        Color bgColor;
+                        switch (spot["status"]) {
+                          case "Occupied":
+                            bgColor = Colors.red;
+                            break;
+                          case "Unavailable":
+                            bgColor = Colors.blueGrey;
+                            break;
+                          default:
+                            bgColor = Colors.green;
+                        }
+
+                        if (state.selectedSpot == spot["id"] &&
+                            spot["status"] == "Available") {
+                          bgColor = Colors.blue;
+                        }
+
+                        return GestureDetector(
+                          onTap: () => cubit.selectSpot(spot["id"]),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: bgColor,
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "${spot["id"]}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-            ),
-          ),
+                ),
+              ),
 
-          // Bottom details panel
-          if (selectedSpot != null)
-            SpotDetails(
-              spot: spots.firstWhere((s) => s["id"] == selectedSpot),
-              garageName: widget.garageName, // ← جديد
-              date: widget.date, // ← جديد
-              time: widget.time, // ← جديد
-            ),
-        ],
+              // Bottom details panel
+              if (state.selectedSpot != null)
+                SpotDetails(
+                  spot: state.spots
+                      .firstWhere((s) => s["id"] == state.selectedSpot),
+                  garageName: garageName,
+                  date: date,
+                  time: time,
+                ),
+            ],
+          );
+        },
       ),
     );
   }
