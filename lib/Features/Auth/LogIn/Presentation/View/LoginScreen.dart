@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parkingapp/Core/Routing/Routes.dart';
@@ -13,7 +14,7 @@ import 'package:parkingapp/Core/Theme/ColorManager.dart';
 import 'package:parkingapp/Features/Auth/LogIn/Presentation/Manager/LoginCubit.dart';
 import 'package:parkingapp/Features/Auth/LogIn/Presentation/Manager/LoginState.dart';
 import 'package:parkingapp/Features/Auth/LogIn/Presentation/widget/SocialButton.dart';
-import 'package:parkingapp/Features/Home/Presentation/View/GarageOverviewScreen.dart';
+
 
 class Loginscreen extends StatelessWidget {
   static const String routeName = "/loginScreen";
@@ -26,11 +27,13 @@ class Loginscreen extends StatelessWidget {
       child: BlocListener<Logincubit, Loginstate>(
         listener: (context, state) {
           // TODO: implement listener
-           if(state is LoginSuccessState){
-           context.go(Garageoverviewscreen.routeName);
+          if (state is LoginSuccessState) {
+            context.go(Routes.Garageoverviewscreen);
           }
-          if(state is LoginErrorState){
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email or Password Not Found"),));
+          if (state is LoginErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Email or Password Not Found")),
+            );
           }
         },
         child: Scaffold(
@@ -54,11 +57,13 @@ class Loginscreen extends StatelessWidget {
                 ),
 
                 SizedBox(height: 20.h),
+                SizedBox(height: 20.h),
                 Textinput(
                   controller: emailOrPhone,
                   hinttext: "Email or Phone Number",
                   prefixicon: SvgPicture.asset(Appassets.emailIcon),
                 ),
+                SizedBox(height: 20.h),
                 SizedBox(height: 20.h),
                 Textinput(
                   controller: password,
@@ -66,6 +71,7 @@ class Loginscreen extends StatelessWidget {
                   prefixicon: SvgPicture.asset(Appassets.lockIcon),
                   postfixicon: SvgPicture.asset(Appassets.visibleIcon),
                 ),
+                SizedBox(height: 10.h),
                 SizedBox(height: 10.h),
                 Align(
                   alignment: Alignment.centerRight,
@@ -83,9 +89,12 @@ class Loginscreen extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 Customebutton("Login", () {
-                  context.read<Logincubit>().UserLogIn(emailOrPhone.text, password.text);
-               
+                  context.read<Logincubit>().UserLogIn(
+                    emailOrPhone.text,
+                    password.text,
+                  );
                 }),
+                SizedBox(height: 10.h),
                 SizedBox(height: 10.h),
                 Row(
                   children: [
@@ -118,7 +127,7 @@ class Loginscreen extends StatelessWidget {
                   image: Appassets.googleIcon,
                   text: "Continue with Google",
                   onTap: () {
-                     context.read<Logincubit>().GoogleLogin();
+                    context.read<Logincubit>().GoogleLogin();
                   },
                 ),
                 SizedBox(height: 20.h),

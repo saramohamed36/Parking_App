@@ -4,21 +4,19 @@ import 'package:go_router/go_router.dart';
 import 'package:parkingapp/Core/Routing/Routes.dart';
 import 'package:parkingapp/Core/Theme/AppAssets.dart';
 import 'package:parkingapp/Core/Theme/ColorManager.dart';
-import 'package:parkingapp/Features/Auth/LogIn/Presentation/View/LoginScreen.dart';
-
 import 'package:parkingapp/Features/Splash/Presentation/Manager/Splash_cubit%20.dart';
 import 'package:parkingapp/Features/Splash/Presentation/Manager/Splash_state.dart';
 
 class Splashscreen extends StatelessWidget {
   static const String routName = "/Splashscreen";
+
   const Splashscreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
-        // TODO: implement listener
-          if (state is SplashFirstTimeState) {
+        if (state is SplashFirstTimeState) {
           context.go(Routes.OnboardingScreen);
         }
 
@@ -36,14 +34,17 @@ class Splashscreen extends StatelessWidget {
 
         if (state is SplashErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Make mistacke : ${state.message}")),
+            SnackBar(
+              content: Text("Make mistake: ${state.message}"),
+            ),
           );
         }
-      
       },
       child: Scaffold(
         backgroundColor: ColorManager.primaryBG,
-        body: Center(child: Image.asset(Appassets.logoImage)),
+        body: Center(
+          child: Image.asset(Appassets.logoImage),
+        ),
       ),
     );
   }

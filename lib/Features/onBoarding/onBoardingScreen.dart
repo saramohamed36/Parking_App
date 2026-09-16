@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:parkingapp/Core/Routing/Routes.dart';
@@ -28,6 +29,7 @@ class OnboardingScreen extends StatelessWidget {
                      Text( "Smart parking for a smoother\n      and easier experience.",style: TextStyle(
               color: ColorManager.primaryBG
             ),),
+            SizedBox(height: 35.h),
             SizedBox(height: 35.h),
             
             SizedBox(

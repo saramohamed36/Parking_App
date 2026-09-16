@@ -4,7 +4,8 @@ class Appassets {
   // Images
   //static const String splashImage = '${imagesPath}splash.png';
   static const String onboardingImage = '${imagesPath}onboarding.jpg';
-  
+  static const String homeImage = '${imagesPath}home.png';
+
   static const String logoImage = '${imagesPath}logo.png';
 
   //Icons

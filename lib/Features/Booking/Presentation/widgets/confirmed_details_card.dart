@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:parkingapp/Features/Booking/Presentation/widgets/booking_detail_row.dart'; // هتعملي import للـ Widget الجديد
+import 'package:parkingapp/Features/Booking/Data/Models/booking_model.dart';
+import 'package:parkingapp/Features/Booking/Presentation/widgets/booking_detail_row.dart';
 
 class ConfirmedDetailsCard extends StatelessWidget {
-  const ConfirmedDetailsCard({super.key});
+  final BookingModel bookingModel;
+
+  const ConfirmedDetailsCard({super.key, required this.bookingModel});
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +18,13 @@ class ConfirmedDetailsCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // عنوان الجراج
-          const Row(
+          Row(
             children: [
-              Icon(Icons.location_on, color: Colors.blue, size: 22),
-              SizedBox(width: 8),
+              const Icon(Icons.location_on, color: Colors.blue, size: 22),
+              const SizedBox(width: 8),
               Text(
-                "Downtown Mall Garage",
-                style: TextStyle(
+                bookingModel.garageName,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
                   color: Colors.blueAccent,
@@ -32,35 +34,31 @@ class ConfirmedDetailsCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // 1. التاريخ
-          const BookingDetailRow(
+          BookingDetailRow(
             icon: Icons.calendar_today_outlined,
             label: "Date",
-            value: "Mon, 12 May 2025",
+            value: bookingModel.date,
           ),
           const SizedBox(height: 12),
 
-          // 2. الوقت
-          const BookingDetailRow(
+          BookingDetailRow(
             icon: Icons.access_time,
             label: "Time",
-            value: "Morning (6 AM - 12 PM)",
+            value: bookingModel.time,
           ),
           const SizedBox(height: 12),
 
-          // 3. المكان
-          const BookingDetailRow(
+          BookingDetailRow(
             icon: Icons.directions_car_outlined,
             label: "Spot",
-            value: "Level 1 - B108",
+            value: bookingModel.spot,
           ),
           const SizedBox(height: 12),
 
-          // 4. الإجمالي
-          const BookingDetailRow(
+          BookingDetailRow(
             icon: Icons.attach_money,
             label: "Total",
-            value: "\$15.60",
+            value: bookingModel.totalPrice,
             isValueBold: true,
           ),
         ],
