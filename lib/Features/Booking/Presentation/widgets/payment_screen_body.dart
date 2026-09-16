@@ -88,7 +88,6 @@ class PaymentScreenBody extends StatelessWidget {
                                 status: "Upcoming",
                               ),
                             );
-                            // 2. استكمال عملية الدفع
                             context.read<BookingCubit>().confirmAndPay(
                               bookingModel,
                             );
