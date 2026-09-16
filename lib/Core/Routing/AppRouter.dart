@@ -14,6 +14,7 @@ import 'package:parkingapp/Features/Home/Presentation/View/BookingFormScreen.dar
 
 import 'package:parkingapp/Features/Home/Presentation/View/GarageOverviewScreen.dart';
 import 'package:parkingapp/Features/Home/Presentation/View/parkingSpotScreen.dart';
+import 'package:parkingapp/Features/MyBooking/Presentation/Manager/MyBookingCubit.dart';
 import 'package:parkingapp/Features/MyBooking/Presentation/View/MyBookingScreen.dart';
 
 import 'package:parkingapp/Features/Profile/Presentation/Manager/ProfileCubit.dart';
@@ -60,18 +61,23 @@ class AppRouter {
     ),
     GoRoute(
       path: Routes.myBookingScreen,
-      builder: (context, state) => MyBookingScreen(),
+      builder: (context, state) {
+        return BlocProvider(
+          create: (_) => MyBookingCubit()..fetchBookings(),
+          child: const MyBookingScreen(),
+        );
+      },
     ),
 
     GoRoute(
       path: Routes.parkingSpotScreen,
       builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>?;
-        return ParkingSpotScreen(
-          garageName: extra?['garageName'] ?? '',
-          garageDistance: extra?['garageDistance'] ?? '',
-          date: extra?['date'] ?? '',
-          time: extra?['time'] ?? '',
+        final extra = state.extra as Map<String, dynamic>;
+        return ParkingSpotScreen.withCubit(
+          garageName: extra['garageName'],
+          garageDistance: extra['garageDistance'],
+          date: extra['date'],
+          time: extra['time'],
         );
       },
     ),
