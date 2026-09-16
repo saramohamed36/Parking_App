@@ -53,8 +53,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hive/hive.dart';
 import 'package:parkingapp/Core/model/User_Model.dart';
 import 'package:parkingapp/Features/Auth/SignUp/Presentation/Manager/SignupState.dart';
+import 'package:parkingapp/Features/Auth/SignUp/data/model/SignUp_hive.dart';
 
 class Signupcubit extends Cubit<Signupstate> {
   Signupcubit() : super(SignUpInitialState());
