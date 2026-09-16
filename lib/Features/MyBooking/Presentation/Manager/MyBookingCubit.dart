@@ -6,41 +6,46 @@ import 'package:parkingapp/Features/MyBooking/Presentation/Manager/MyBookingStat
 class MyBookingCubit extends Cubit<MyBookingState> {
   MyBookingCubit() : super(MyBookingInitial());
 
-  // 1. تعريف الـ Hive Box
   final Box _bookingsBox = Hive.box("UserBookings");
 
   void fetchBookings() {
-    // 2. قراءة البيانات المكتوبة في Hive وتحويلها لـ List of BookingModel
-    List rawData = _bookingsBox.get('bookings_list', defaultValue: []);
+    emit(MyBookingLoading());
 
-    List<BookingModel> allBookings = rawData.map((item) {
-      Map<String, dynamic> map = Map<String, dynamic>.from(item);
-      return BookingModel(
-        dayName: map['dayName'] ?? '',
-        dayNumber: map['dayNumber'] ?? '',
-        month: map['month'] ?? '',
-        garageName: map['garageName'] ?? '',
-        timeSlot: map['timeSlot'] ?? '',
-        spotInfo: map['spotInfo'] ?? '',
-        status: map['status'] ?? 'Upcoming',
-      );
-    }).toList();
+    try {
+      List rawData = _bookingsBox.get('bookings_list', defaultValue: []);
 
-    // فصل الـ Upcoming عن الـ History
-    List<BookingModel> upcoming = allBookings
-        .where((b) => b.status == 'Upcoming')
-        .toList();
-    List<BookingModel> history = allBookings
-        .where((b) => b.status != 'Upcoming')
-        .toList();
+      List<BookingModel> allBookings = rawData.map((item) {
+        Map<String, dynamic> map = Map<String, dynamic>.from(item);
+        return BookingModel(
+          dayName: map['dayName'] ?? '',
+          dayNumber: map['dayNumber'] ?? '',
+          month: map['month'] ?? '',
+          garageName: map['garageName'] ?? '',
+          timeSlot: map['timeSlot'] ?? '',
+          spotInfo: map['spotInfo'] ?? '',
+          status: map['status'] ?? 'Upcoming',
+        );
+      }).toList();
 
-    emit(MyBookingLoaded(upcomingBookings: upcoming, historyBookings: history));
+      List<BookingModel> upcoming =
+          allBookings.where((b) => b.status == 'Upcoming').toList();
+
+      List<BookingModel> history =
+          allBookings.where((b) => b.status != 'Upcoming').toList();
+
+      if (upcoming.isEmpty && history.isEmpty) {
+        emit(MyBookingEmpty());
+      } else {
+        emit(MyBookingLoaded(upcomingBookings: upcoming, historyBookings: history));
+      }
+    } catch (e) {
+      emit(MyBookingErrorState("Failed to load bookings: $e"));
+    }
   }
 
   void addBooking(BookingModel booking) {
     List rawData = _bookingsBox.get('bookings_list', defaultValue: []);
 
-    // تحويل الـ Model لـ Map وحفظه في Hive
     Map<String, dynamic> newBookingMap = {
       'dayName': booking.dayName,
       'dayNumber': booking.dayNumber,
